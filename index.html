@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="theme-color" content="#061624" />
+  <meta name="description" content="INGENIO, agente virtual de orientación de la Facultad de Ingeniería de la Corporación Universitaria Rafael Núñez." />
+  <title>INGENIO · Facultad de Ingeniería Uninúñez</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+  <div class="grid-floor" aria-hidden="true"></div>
+
+  <main class="kiosk" id="kiosk">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Inicio de INGENIO">
+        <span class="brand-logo-crop" aria-hidden="true"><img src="assets/logo-uninunez-color.png" alt="" /></span>
+        <span><strong>UNINÚÑEZ</strong><small>Facultad de Ingeniería</small></span>
+      </a>
+      <div class="system-status" aria-live="polite">
+        <span class="status-dot"></span>
+        <span id="statusLabel">Sistema en espera</span>
+        <span class="time" id="clock">--:--</span>
+      </div>
+    </header>
+
+    <section class="stage" aria-label="Agente virtual INGENIO">
+      <div class="robot-zone">
+        <div class="orbit orbit-outer" aria-hidden="true"></div>
+        <div class="orbit orbit-inner" aria-hidden="true"></div>
+        <div class="scan-line" aria-hidden="true"></div>
+        <div class="robot-aura" aria-hidden="true"></div>
+        <div class="robot-3d" id="robot" role="img" aria-label="INGENIO, robot tridimensional articulado de la Facultad de Ingeniería">
+          <canvas id="robotCanvas" aria-hidden="true"></canvas>
+          <img class="robot-3d-fallback" src="assets/nuno-robot-orange-cutout.png" alt="" aria-hidden="true" />
+        </div>
+        <div class="robot-shadow" aria-hidden="true"></div>
+        <div class="nameplate">
+          <span>AGENTE VIRTUAL</span>
+          <strong>INGENIO</strong>
+        </div>
+      </div>
+
+      <div class="content-zone">
+        <div class="eyebrow"><span id="stateNumber">01</span><span id="stateName">MODO DE BIENVENIDA</span></div>
+
+        <div id="waitingPanel" class="panel active">
+          <h1>Tu futuro<br /><em>comienza aquí.</em></h1>
+          <p>Acércate y conoce la Facultad de Ingeniería.</p>
+          <button class="primary-cta" id="startButton">
+            <span class="touch-icon" aria-hidden="true">◎</span>
+            <span><strong>Toca para comenzar</strong><small>o di «Hola, INGENIO»</small></span>
+            <span class="arrow">↗</span>
+          </button>
+        </div>
+
+        <div id="speechPanel" class="panel" aria-live="polite">
+          <div class="speech-card">
+            <span class="quote-mark">“</span>
+            <p id="speechText">¡Hola! Te doy la bienvenida a la Corporación Universitaria Rafael Núñez.</p>
+            <div class="speech-progress"><span id="speechProgress"></span></div>
+          </div>
+          <div class="keywords" id="keywords" aria-label="Áreas destacadas">
+            <span>Inteligencia artificial</span><span>Analítica de datos</span><span>Software</span><span>Innovación</span>
+          </div>
+          <button class="skip-button" id="skipButton">Interrumpir y consultar <span>→</span></button>
+        </div>
+
+        <div id="menuPanel" class="panel">
+          <div class="menu-heading">
+            <div>
+              <span class="kicker">ESTOY LISTO PARA AYUDARTE</span>
+              <h2>¿Qué deseas consultar?</h2>
+            </div>
+            <button class="mic-button" id="micButton" aria-label="Hacer una pregunta por voz"><span>◉</span> Hablar</button>
+          </div>
+          <div class="menu-grid">
+            <button class="menu-card" data-topic="programas"><span class="menu-icon">⌘</span><span><strong>Programas</strong><small>Pregrado y posgrados</small></span><span class="card-arrow">↗</span></button>
+            <button class="menu-card" data-topic="eventos"><span class="menu-icon">◇</span><span><strong>Eventos</strong><small>Agenda de la facultad</small></span><span class="card-arrow">↗</span></button>
+            <button class="menu-card" data-topic="laboratorios"><span class="menu-icon">⌖</span><span><strong>Laboratorios</strong><small>Ubicación y orientación</small></span><span class="card-arrow">↗</span></button>
+            <button class="menu-card featured" data-topic="admisiones"><span class="menu-icon">▦</span><span><strong>Admisiones</strong><small>Inscríbete en línea</small></span><span class="card-arrow">↗</span></button>
+          </div>
+          <p class="voice-hint" id="voiceHint"><span class="sound-bars"><i></i><i></i><i></i><i></i></span> También puedes hacerme una pregunta con tu voz</p>
+        </div>
+
+        <div id="detailPanel" class="panel" aria-live="polite">
+          <button class="back-button" id="backButton">← Volver a opciones</button>
+          <div id="detailContent"></div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footerbar">
+      <span>Cartagena de Indias · Colombia</span>
+      <span class="footer-center"><i></i> Tecnología con propósito</span>
+      <span id="dateLabel"></span>
+    </footer>
+  </main>
+
+  <div class="idle-overlay" id="idleOverlay" aria-hidden="true">
+    <div class="idle-ring"><span>◎</span></div>
+    <p>Toca la pantalla para despertar a INGENIO</p>
+  </div>
+
+  <script type="module" src="robot-real3d.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
